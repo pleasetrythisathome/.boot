@@ -1,9 +1,9 @@
 (def deps (->> '[ ;;repl middleware
                  [com.cemerick/piggieback "0.2.1"]
-                 [cider/cider-nrepl "0.10.0-SNAPSHOT" :exclusions [org.clojure/tools.reader]]
+                 [cider/cider-nrepl "0.11.0-SNAPSHOT" :exclusions [org.clojure/tools.reader]]
                  [org.clojure/tools.nrepl "0.2.12"]
                  [org.clojure/tools.namespace "0.2.11"]
-                 [refactor-nrepl "1.2.0-SNAPSHOT" :exclusions [org.clojure/tools.nrepl]]
+                 [refactor-nrepl "2.0.0-SNAPSHOT" :exclusions [org.clojure/tools.nrepl]]
 
                  ;; repl tools
                  [difform "1.1.2"]
@@ -22,7 +22,7 @@
 
 (set-env! :dependencies (fn [deps]
                           (->> '[[boot-deps "0.1.6"]
-                                 [cider/cider-nrepl "0.10.0-SNAPSHOT" :exclusions [org.clojure/tools.reader org.clojure/java.classpath]]
+                                 [cider/cider-nrepl "0.11.0-SNAPSHOT" :exclusions [org.clojure/tools.reader org.clojure/java.classpath]]
                                  [com.cemerick/piggieback "0.2.1" :exclusions [org.clojure/clojure org.clojure/clojurescript]]
                                  [im.chit/vinyasa "0.4.2" :exclusions [org.clojure/clojure]]
                                  [org.jsoup/jsoup "1.7.1"]

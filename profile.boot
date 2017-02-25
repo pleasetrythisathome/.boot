@@ -14,26 +14,16 @@
 
 (install-pretty-exceptions)
 
-(deftask cider
-  "CIDER profile"
-  []
-  (require 'boot.repl)
-  (swap! @(resolve 'boot.repl/*default-dependencies*)
-         concat '[[org.clojure/tools.nrepl "0.2.12"]
-                  [org.clojure/tools.namespace "0.3.0-alpha3"]
-                  [cider/cider-nrepl "0.15.0-SNAPSHOT"
-                   :exclusions [org.clojure/tools.reader
-                                org.clojure/java.classpath]]
-                  [com.cemerick/piggieback "0.2.1"
-                   :exclusions [org.clojure/clojure
-                                org.clojure/clojurescript]]
-                  [refactor-nrepl "2.3.0-SNAPSHOT"
-                   :exclusions [org.clojure/tools.nrepl]]])
-  (swap! @(resolve 'boot.repl/*default-middleware*)
-         concat '[cider.nrepl/cider-middleware
-                  cemerick.piggieback/wrap-cljs-repl
-                  refactor-nrepl.middleware/wrap-refactor])
-  identity)
+(configure-repositories!
+  (let [creds-file (clojure.java.io/file
+                    (System/getProperty "user.home") ".lein/credentials.clj.gpg")
+        creds-data (gpg-decrypt creds-file :as :edn)]
+    (fn [{:keys [url] :as repo-map}]
+      (->> creds-data
+           (some (fn [[regex cred]]
+                   (when (re-find regex url)
+                     cred)))
+           (merge repo-map)))))
 
 #_(inject/in [vinyasa.inject :refer [inject [in inject-in]]]
              clojure.core
